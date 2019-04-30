@@ -172,7 +172,7 @@ class UICircularRingLayer: CAShapeLayer {
         }
 
         let offSet = max(ring.outerRingWidth, ring.innerRingWidth) / 2
-                        + (knobSize / 4)
+                        + (knobSize / 2)
                         + (borderWidth * 2)
         let outerRadius: CGFloat = min(bounds.width, bounds.height) / 2 - offSet
         let start: CGFloat = ring.fullCircle ? 0 : ring.startAngle.rads
@@ -247,7 +247,7 @@ class UICircularRingLayer: CAShapeLayer {
         }
 
         if let knobStyle = ring.valueKnobStyle, value > minValue {
-            let knobOffset = knobStyle.size / 2
+            let knobOffset = knobStyle.size / 2.3
             drawValueKnob(in: ctx, origin: CGPoint(x: innerPath.currentPoint.x - knobOffset,
                                                    y: innerPath.currentPoint.y - knobOffset))
         }
@@ -332,7 +332,7 @@ class UICircularRingLayer: CAShapeLayer {
             let offSet = (max(ring.outerRingWidth, ring.innerRingWidth) / 2) + (knobSize / 4) + (borderWidth * 2)
             radiusIn = (min(bounds.width, bounds.height) / 2) - offSet
         default:
-            let offSet = (max(ring.outerRingWidth, ring.innerRingWidth) / 2) + (knobSize / 4)
+            let offSet = (max(ring.outerRingWidth, ring.innerRingWidth) / 2) + (knobSize / 2)
             radiusIn = (min(bounds.width, bounds.height) / 2) - offSet
         }
 
