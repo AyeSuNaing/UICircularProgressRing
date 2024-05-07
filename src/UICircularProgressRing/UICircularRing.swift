@@ -43,6 +43,7 @@ import UIKit
  Luis Padron
  
  */
+@available(iOSApplicationExtension 13.0, *)
 @IBDesignable open class UICircularRing: UIView {
 
     // MARK: Circle Properties
@@ -119,6 +120,10 @@ import UIKit
 
     */
     open var valueKnobStyle: UICircularRingValueKnobStyle? {
+        didSet { ringLayer.setNeedsDisplay() }
+    }
+    
+    open var valueImageStyle: UICircularRingValueImageStyle? {
         didSet { ringLayer.setNeedsDisplay() }
     }
 
@@ -565,6 +570,7 @@ import UIKit
 
 // MARK: Helpers
 
+@available(iOSApplicationExtension 13.0, *)
 extension UICircularRing {
     /**
      This method is called when the application goes into the background or when the
@@ -600,6 +606,7 @@ extension UICircularRing {
     }
 }
 
+@available(iOSApplicationExtension 13.0, *)
 extension UICircularRing {
     /// Helper enum for animation key
     enum AnimationKeys: String {

@@ -32,6 +32,7 @@ import UIKit
  properties are set in UICircularRing and those are delegated to here.
 
  */
+@available(iOSApplicationExtension 13.0, *)
 class UICircularRingLayer: CAShapeLayer {
 
     // MARK: Properties
@@ -48,6 +49,9 @@ class UICircularRingLayer: CAShapeLayer {
 
     /// the style for the value knob
     var valueKnobStyle: UICircularRingValueKnobStyle?
+    
+    
+    var valueImageStyle: UICircularRingValueImageStyle?
 
     // MARK: Animation members
 
@@ -87,6 +91,7 @@ class UICircularRingLayer: CAShapeLayer {
         guard let layer = layer as? UICircularRingLayer else { fatalError("unable to copy layer") }
         valueFormatter = layer.valueFormatter
         valueKnobStyle = layer.valueKnobStyle
+        valueImageStyle = layer.valueImageStyle
         animationDuration = layer.animationDuration
         animationTimingFunction = layer.animationTimingFunction
         animated = layer.animated
@@ -246,6 +251,12 @@ class UICircularRingLayer: CAShapeLayer {
             ctx.restoreGState()
         }
 
+        if let imageStyle = ring.valueImageStyle, value > minValue {
+            let imageOffset = imageStyle.size / 2.3
+            drawValueKnob(in: ctx, origin: CGPoint(x: innerPath.currentPoint.x - imageOffset,
+                                                   y: innerPath.currentPoint.y - imageOffset))
+        }
+        
         if let knobStyle = ring.valueKnobStyle, value > minValue {
             let knobOffset = knobStyle.size / 2.3
             drawValueKnob(in: ctx, origin: CGPoint(x: innerPath.currentPoint.x - knobOffset,
@@ -376,6 +387,33 @@ class UICircularRingLayer: CAShapeLayer {
         context.restoreGState()
     }
 
+    
+    private func drawValueImage(in context: CGContext, origin: CGPoint) {
+        guard let imageStyle = ring.valueImageStyle else { return }
+
+        context.saveGState()
+
+        let rect = CGRect(origin: origin, size: CGSize(width: imageStyle.size, height: imageStyle.size))
+        let knobPath = UIBezierPath(ovalIn: rect)
+
+        context.setShadow(offset: imageStyle.shadowOffset,
+                          blur: imageStyle.shadowBlur,
+                          color: imageStyle.shadowColor.cgColor)
+        context.addPath(knobPath.cgPath)
+        context.setFillColor(imageStyle.color.cgColor)
+        context.setLineCap(.round)
+        context.setLineWidth(12)
+        context.drawPath(using: .fill)
+
+        if let image = ring.valueImageStyle?.image {
+            let imageSize = CGSize(width: imageStyle.size, height: imageStyle.size)
+            let imageRect = CGRect(origin: origin, size: imageSize)
+            image.draw(in: imageRect)
+        }
+
+        context.restoreGState()
+    }
+    
     /**
      Draws the value label for the view.
      Only drawn if shouldShowValueText = true

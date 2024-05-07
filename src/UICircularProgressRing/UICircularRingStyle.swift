@@ -24,6 +24,7 @@
 //
 
 import UIKit.UIColor
+import UIKit.UIImage
 
 // MARK: UICircularRingStyle
 
@@ -98,6 +99,48 @@ public struct UICircularRingValueKnobStyle {
         self.shadowOffset = shadowOffset
         self.shadowColor = shadowColor
     }
+}
+
+
+
+@available(iOSApplicationExtension 13.0, *)
+public struct UICircularRingValueImageStyle {
+
+   /// default implmementation of the knob style
+    public static let `default` = UICircularRingValueImageStyle(size: 15.0, color: .lightGray, image: UIImage(systemName: "photo")!)
+
+   /// the size of the knob
+   public let size: CGFloat
+
+   /// the color of the knob
+   public let color: UIColor
+
+   /// the amount of blur to give the shadow
+   public let shadowBlur: CGFloat
+
+   /// the offset to give the shadow
+   public let shadowOffset: CGSize
+
+   /// the color for the shadow
+   public let shadowColor: UIColor
+    
+    
+    public let image: UIImage
+
+   /// creates a new `UICircularRingValueKnobStyle`
+   public init(size: CGFloat,
+               color: UIColor,
+               shadowBlur: CGFloat = 2.0,
+               shadowOffset: CGSize = .zero,
+               shadowColor: UIColor = UIColor.black.withAlphaComponent(0.8),
+               image: UIImage) {
+       self.size = size
+       self.color = color
+       self.shadowBlur = shadowBlur
+       self.shadowOffset = shadowOffset
+       self.shadowColor = shadowColor
+       self.image = image
+   }
 }
 
 // MARK: UICircularRingGradientPosition
