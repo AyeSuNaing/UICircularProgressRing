@@ -253,7 +253,7 @@ class UICircularRingLayer: CAShapeLayer {
 
         if let imageStyle = ring.valueImageStyle, value > minValue {
             let imageOffset = imageStyle.size / 2.3
-            drawValueKnob(in: ctx, origin: CGPoint(x: innerPath.currentPoint.x - imageOffset,
+            drawValueImage(in: ctx, origin: CGPoint(x: innerPath.currentPoint.x - imageOffset,
                                                    y: innerPath.currentPoint.y - imageOffset))
         }
         
